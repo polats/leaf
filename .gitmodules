@@ -1,0 +1,3 @@
+[submodule "Assets/websocket-sharp"]
+	path = Assets/websocket-sharp
+	url = https://github.com/polats/websocket-sharp.git
