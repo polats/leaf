@@ -5,10 +5,12 @@ using WebSocketSharp;
 
 public class WebsocketManager : MonoBehaviour {
 
+    WebSocket ws;
+
 	// Use this for initialization
 	void Start () {
-      var ws = new WebSocket("ws://seed.gomix.me");
-      // var ws = new WebSocket("ws://localhost:8080");
+      ws = new WebSocket("wss://seed.gomix.me");
+      // var ws = new WebSocket("ws://localhost:3000");
 
         ws.OnOpen += OnOpenHandler;
         ws.OnMessage += OnMessageHandler;
@@ -18,6 +20,16 @@ public class WebsocketManager : MonoBehaviour {
         ws.ConnectAsync();
 
 	}
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
+    void OnDestroy()
+    {
+        ws.CloseAsync();
+    }
 	
     private void OnOpenHandler(object sender, System.EventArgs e) {
         Debug.Log("Websocket connected!");
@@ -26,7 +38,6 @@ public class WebsocketManager : MonoBehaviour {
     private void OnMessageHandler(object sender, MessageEventArgs e) {
         Debug.Log("Websocket said: " + e.Data);
     }
-
 
 	// Update is called once per frame
 	void Update () {
