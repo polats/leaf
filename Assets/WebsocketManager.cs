@@ -5,12 +5,14 @@ using WebSocketSharp;
 
 public class WebsocketManager : MonoBehaviour {
 
+    [Tooltip("example: seed.gomix.me")]
+    public string gomixServerUrl; // =  "ws://localhost:3000"; // for testing locally deployed seed
+
     WebSocket ws;
 
 	// Use this for initialization
 	void Start () {
-      ws = new WebSocket("wss://seed.gomix.me");
-      // var ws = new WebSocket("ws://localhost:3000");
+        ws = new WebSocket("ws://" + gomixServerUrl);
 
         ws.OnOpen += OnOpenHandler;
         ws.OnMessage += OnMessageHandler;
