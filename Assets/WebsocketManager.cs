@@ -26,7 +26,7 @@ public class WebsocketManager : MonoBehaviour {
     public string gomixServerUrl; // =  "ws://localhost:3000"; // for testing locally deployed seed
     public GameObject otherHead;
 
-    private WebSocket ws;
+    public WebSocket ws;
 
 	// Use this for initialization
 	void Start () {
