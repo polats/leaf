@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 
+using WebSocketSharp;
+
+
 public class ConnectedPlayer : MonoBehaviour {
 
     public GameObject PlayerCamera;
@@ -15,10 +18,20 @@ public class ConnectedPlayer : MonoBehaviour {
         PlayerCamera.transform.ObserveEveryValueChanged(x => x.rotation).Subscribe(
             rotationVector =>
             {
-                Debug.Log(JsonUtility.ToJson(rotationVector));
+                if (WebsocketManager.Instance.ws != null)
+                {
+                    WebSocket ws = WebsocketManager.Instance.ws;
+                    if (ws.IsConnected)
+                    ws.SendAsync(JsonUtility.ToJson(rotationVector),
+                            OnSendComplete);
+                }
             });
 	}
 	
+    void OnSendComplete(bool result)
+    {
+    }
+
 	// Update is called once per frame
 	void Update () {
 		
