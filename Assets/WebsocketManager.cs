@@ -29,19 +29,22 @@ public class WebsocketManager : MonoBehaviour {
     public string gomixServerUrl; 
     public GameObject otherHead;
 
-    public WebSocket ws = null;
     bool gameConnected = false;
     bool isHost = true;
     private Quaternion newRotVector;
     private bool pendingRotation = false;
 
+    // change used websocket
+    public WebSocket ws = null;
+
+
 
 	// Use this for initialization
 	void Start () {
 
-        ws = new WebSocket("ws://" + gomixServerUrl);
+        // ws = new WebSocket("ws://" + gomixServerUrl);
 
-        ws = new WebSocket("ws://localhost:3000"); // for testing locally deployed seed
+       ws = new WebSocket("ws://localhost:3000"); // for testing locally deployed seed
 
         ws.OnOpen += OnOpenHandler;
         ws.OnMessage += OnMessageHandler;
@@ -49,6 +52,10 @@ public class WebsocketManager : MonoBehaviour {
       //  ws.OnError += OnErrorHandler;
 
         Debug.Log("Connecting to : " + ws.Url);
+
+        // start to send
+        Application.ExternalCall("UnityLoaded");
+
         ws.ConnectAsync();
 
 	}
@@ -57,8 +64,9 @@ public class WebsocketManager : MonoBehaviour {
         Debug.Log("Websocket connected!");
     }
 
-    private void OnMessageHandler(object sender, MessageEventArgs e) {
-        string res = e.Data;
+    public void ProcessMessage(string res) {
+
+        Debug.Log(res);
         if (gameConnected)
         {
             // convert jsonString to list of users as Dictionaries
@@ -89,7 +97,11 @@ public class WebsocketManager : MonoBehaviour {
                 gameConnected = true;
                 isHost = false;
             }
-        }
+        }        
+    }
+
+    private void OnMessageHandler(object sender, MessageEventArgs e) {
+        ProcessMessage(e.Data);
     }
 
 	// Update is called once per frame

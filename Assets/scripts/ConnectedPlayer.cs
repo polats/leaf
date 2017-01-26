@@ -25,6 +25,8 @@ public class ConnectedPlayer : MonoBehaviour {
                     ws.SendAsync(JsonUtility.ToJson(rotationVector),
                             OnSendComplete);
                 }
+
+                Application.ExternalCall ("UpdateRotation", JsonUtility.ToJson (rotationVector));
             });
 	}
 	
