@@ -42,9 +42,9 @@ public class WebsocketManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        // ws = new WebSocket("ws://" + gomixServerUrl);
+        ws = new WebSocket("ws://" + gomixServerUrl);
 
-       ws = new WebSocket("ws://localhost:3000"); // for testing locally deployed seed
+       // ws = new WebSocket("ws://localhost:3000"); // for testing locally deployed seed
 
         ws.OnOpen += OnOpenHandler;
         ws.OnMessage += OnMessageHandler;
@@ -66,7 +66,6 @@ public class WebsocketManager : MonoBehaviour {
 
     public void ProcessMessage(string res) {
 
-        Debug.Log(res);
         if (gameConnected)
         {
             // convert jsonString to list of users as Dictionaries
